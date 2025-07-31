@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "email": "admin@carstore.com",
+    "phone": "0123456789",
+    "password": "admin123",
+    "role": "admin",
+    "createdAt": "2025-07-31T04:06:23.985Z"
+  },
+  {
+    "id": 2,
+    "name": "van hieu ",
+    "email": "tidp357@gmail.com",
+    "phone": "0867306487",
+    "password": "Cocailon1",
+    "role": "user",
+    "createdAt": "2025-07-31T04:54:08.677Z",
+    "updatedAt": "2025-07-31T05:06:37.091Z"
+  },
+  {
+    "id": 3,
+    "name": "vy van hieu",
+    "email": "tidp35790@gmail.com",
+    "phone": "0867312312",
+    "password": "123456",
+    "role": "user",
+    "createdAt": "2025-07-31T05:10:26.553Z"
+  }
+]

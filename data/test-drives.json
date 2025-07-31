@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "customerName": "vy van hieu",
+    "customerEmail": "tidp357@gmail.com",
+    "customerPhone": "031231820",
+    "scheduledDate": "2025-08-01",
+    "scheduledTime": "10:00",
+    "notes": "test",
+    "carId": 2,
+    "carName": "Honda Civic RS",
+    "carBrand": "Honda",
+    "status": "confirmed",
+    "createdAt": "2025-07-31T05:11:06.727Z",
+    "updatedAt": "2025-07-31T05:17:14.221Z"
+  },
+  {
+    "id": 2,
+    "customerName": "toi la bot",
+    "customerEmail": "dasjdasda@gmail.com",
+    "customerPhone": "039123123",
+    "scheduledDate": "2025-08-09",
+    "scheduledTime": "14:00",
+    "notes": "hihi",
+    "carId": 6,
+    "carName": "BMW X3 xDrive30e",
+    "carBrand": "BMW",
+    "status": "cancelled",
+    "createdAt": "2025-07-31T05:18:27.397Z",
+    "updatedAt": "2025-07-31T05:18:38.040Z"
+  }
+]
