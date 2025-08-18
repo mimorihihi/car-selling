@@ -349,9 +349,10 @@ export default function CarDetailPage() {
                   </label>
                   <input
                     type="text"
+                    placeholder="Nhập họ và tên của bạn"
                     value={testDriveForm.customerName}
                     onChange={(e) => setTestDriveForm({...testDriveForm, customerName: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                    className="w-full px-4 py-3 text-base font-medium text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm placeholder-gray-400"
                     required
                   />
                 </div>
@@ -361,9 +362,10 @@ export default function CarDetailPage() {
                   </label>
                   <input
                     type="email"
+                    placeholder="example@email.com"
                     value={testDriveForm.customerEmail}
                     onChange={(e) => setTestDriveForm({...testDriveForm, customerEmail: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                    className="w-full px-4 py-3 text-base font-medium text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm placeholder-gray-400"
                     required
                   />
                 </div>
@@ -373,9 +375,10 @@ export default function CarDetailPage() {
                   </label>
                   <input
                     type="tel"
+                    placeholder="Ví dụ: 0912345678"
                     value={testDriveForm.customerPhone}
                     onChange={(e) => setTestDriveForm({...testDriveForm, customerPhone: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                    className="w-full px-4 py-3 text-base font-medium text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm placeholder-gray-400"
                     required
                   />
                 </div>
@@ -387,7 +390,7 @@ export default function CarDetailPage() {
                     type="date"
                     value={testDriveForm.scheduledDate}
                     onChange={(e) => setTestDriveForm({...testDriveForm, scheduledDate: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                    className="w-full px-4 py-3 text-base font-medium text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm"
                     min={new Date().toISOString().split('T')[0]}
                     required
                   />
@@ -399,7 +402,7 @@ export default function CarDetailPage() {
                   <select
                     value={testDriveForm.scheduledTime}
                     onChange={(e) => setTestDriveForm({...testDriveForm, scheduledTime: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                    className="w-full px-4 py-3 text-base font-medium text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm"
                     required
                   >
                     <option value="">Chọn giờ</option>
@@ -416,9 +419,10 @@ export default function CarDetailPage() {
                     Ghi chú
                   </label>
                   <textarea
+                    placeholder="Bạn có yêu cầu đặc biệt nào không?"
                     value={testDriveForm.notes}
                     onChange={(e) => setTestDriveForm({...testDriveForm, notes: e.target.value})}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+                    className="w-full px-4 py-3 text-base font-medium text-gray-900 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white shadow-sm placeholder-gray-400"
                     rows="3"
                   />
                 </div>

@@ -340,6 +340,63 @@ export const getCars = async () => {
   }
 };
 
+export const getCarsWithFilters = async (filters = {}) => {
+  try {
+    if (!db) {
+      throw new Error('Firebase not configured');
+    }
+    
+    // Lấy tất cả xe trước, sau đó filter ở client
+    // Firestore không hỗ trợ range queries phức tạp với text search
+    const querySnapshot = await getDocs(carsCollection);
+    let cars = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    // Áp dụng filters
+    if (filters.name) {
+      const searchTerm = filters.name.toLowerCase().trim();
+      cars = cars.filter(car => 
+        car.name?.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    if (filters.brand) {
+      cars = cars.filter(car => 
+        car.brand?.toLowerCase() === filters.brand.toLowerCase()
+      );
+    }
+
+    if (filters.minPrice) {
+      const minPrice = parseInt(filters.minPrice);
+      cars = cars.filter(car => 
+        car.price && car.price >= minPrice
+      );
+    }
+
+    if (filters.maxPrice) {
+      const maxPrice = parseInt(filters.maxPrice);
+      cars = cars.filter(car => 
+        car.price && car.price <= maxPrice
+      );
+    }
+
+    // Sắp xếp theo tên để kết quả nhất quán
+    cars.sort((a, b) => {
+      if (a.name && b.name) {
+        return a.name.localeCompare(b.name, 'vi');
+      }
+      return 0;
+    });
+
+    return cars;
+  } catch (error) {
+    console.error('Error getting cars with filters:', error);
+    throw error;
+  }
+};
+
 export const getCarById = async (id) => {
   try {
     console.log('getCarById: Looking for car with ID:', id);

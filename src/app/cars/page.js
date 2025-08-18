@@ -1,7 +1,16 @@
+'use client';
+import { useState, useCallback } from 'react';
 import CarList from '@/components/CarList';
 import Layout from '@/components/Layout';
+import SearchBar from '@/components/SearchBar';
 
 export default function CarsPage() {
+  const [searchFilters, setSearchFilters] = useState({});
+
+  const handleSearchChange = useCallback((filters) => {
+    setSearchFilters(filters);
+  }, []);
+
   return (
     <Layout>
       {/* Header */}
@@ -18,10 +27,14 @@ export default function CarsPage() {
         </div>
       </div>
 
-      {/* Cars List */}
+      {/* Search and Cars List */}
       <div className="py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <CarList featured={false} />
+          {/* Search Bar */}
+          <SearchBar onSearchChange={handleSearchChange} />
+          
+          {/* Cars List */}
+          <CarList featured={false} searchFilters={searchFilters} />
         </div>
       </div>
     </Layout>

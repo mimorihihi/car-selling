@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import CarCard from './CarCard';
 
-export default function CarList({ featured = false }) {
+export default function CarList({ featured = false, searchFilters = null }) {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,8 +12,26 @@ export default function CarList({ featured = false }) {
   useEffect(() => {
     const fetchCars = async () => {
       try {
-        const response = await fetch('/api/cars');
-        const data = await response.json();
+        setLoading(true);
+        let response;
+        let data;
+
+        // Nếu có search filters và không phải featured, sử dụng search API
+        if (searchFilters && !featured && Object.keys(searchFilters).some(key => searchFilters[key])) {
+          response = await fetch('/api/cars/search', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filters: searchFilters }),
+          });
+          const searchResult = await response.json();
+          data = searchResult.cars;
+        } else {
+          // Sử dụng API bình thường
+          response = await fetch('/api/cars');
+          data = await response.json();
+        }
         
         if (featured) {
           // Chỉ lấy 6 xe đầu tiên cho trang chủ
@@ -23,6 +41,9 @@ export default function CarList({ featured = false }) {
           setCars(data);
           setTotalPages(Math.ceil(data.length / carsPerPage));
         }
+        
+        // Reset về trang 1 khi có kết quả tìm kiếm mới
+        setCurrentPage(1);
       } catch (error) {
         console.error('Error fetching cars:', error);
       } finally {
@@ -31,7 +52,7 @@ export default function CarList({ featured = false }) {
     };
 
     fetchCars();
-  }, [featured]);
+  }, [featured, searchFilters]);
 
   // Tính toán xe hiển thị cho trang hiện tại
   const getCurrentPageCars = () => {
@@ -67,12 +88,43 @@ export default function CarList({ featured = false }) {
 
   return (
     <div>
+      {/* Thông báo kết quả tìm kiếm */}
+      {!featured && searchFilters && Object.keys(searchFilters).some(key => searchFilters[key]) && !loading && (
+        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-blue-800">
+            <span className="font-medium">Kết quả tìm kiếm: </span>
+            Tìm thấy {cars.length} xe phù hợp
+            {cars.length === 0 && (
+              <span className="block mt-2 text-blue-600">
+                Không tìm thấy xe nào phù hợp với tiêu chí tìm kiếm. Vui lòng thử điều chỉnh bộ lọc.
+              </span>
+            )}
+          </p>
+        </div>
+      )}
+
       {/* Cars Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {currentCars.map((car) => (
-          <CarCard key={car.id} car={car} />
-        ))}
-      </div>
+      {currentCars.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {currentCars.map((car) => (
+            <CarCard key={car.id} car={car} />
+          ))}
+        </div>
+      ) : !loading && (
+        <div className="text-center py-12">
+          <div className="text-gray-400 mb-4">
+            <svg className="mx-auto w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p className="text-gray-500 text-lg">
+            {searchFilters && Object.keys(searchFilters).some(key => searchFilters[key])
+              ? 'Không tìm thấy xe nào phù hợp'
+              : 'Chưa có xe nào được thêm vào'
+            }
+          </p>
+        </div>
+      )}
 
       {/* Pagination - Chỉ hiển thị khi không phải featured và có nhiều hơn 1 trang */}
       {!featured && totalPages > 1 && (

@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 
 export default function Hero() {
@@ -14,29 +15,29 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
       </div>
 
-      {/* Content - Overlay on image */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen flex items-center">
-        <div className="w-full">
-          {/* Text content centered on image */}
-          <div className="text-center text-white max-w-4xl mx-auto">
-            <h1 className="text-5xl lg:text-7xl font-serif font-bold mb-6 leading-tight">
+      {/* Content - Bottom left positioning */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-screen flex items-end pb-16">
+        <div className="max-w-lg">
+          {/* Text content left aligned */}
+          <div className="text-white">
+            <h1 className="text-4xl lg:text-6xl font-serif font-bold mb-4 leading-tight">
               CarStore
             </h1>
-            <p className="text-xl lg:text-2xl mb-8 text-gray-200 leading-relaxed">
+            <p className="text-lg lg:text-xl mb-8 text-gray-200 leading-relaxed">
               Sự tổng hòa giữa tính thẩm mỹ đương đại và không gian sang trọng bậc nhất.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4">
               <Link 
                 href="/cars"
-                className="bg-white text-black px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 text-center shadow-lg"
+                className="bg-white text-black px-8 py-3 font-medium hover:bg-gray-100 transition-all duration-300 text-center"
               >
                 Tìm xe có sẵn
               </Link>
               <Link 
-                href="/wishlist"
-                className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-black transition-all duration-300 transform hover:scale-105 text-center shadow-lg"
+                href="/test-drives"
+                className="border border-white text-white px-8 py-3 font-medium hover:bg-white hover:text-black transition-all duration-300 text-center"
               >
-                Wishlist
+                Đăng ký lái thử
               </Link>
             </div>
           </div>
