@@ -34,11 +34,13 @@ export default function Hero() {
                 Tìm xe có sẵn
               </Link>
               <Link 
-                href="/test-drives"
+                href="/showroom"
                 className="border border-white text-white px-8 py-3 font-medium hover:bg-white hover:text-black transition-all duration-300 text-center"
               >
-                Đăng ký lái thử
+                Hệ thống showroom
               </Link>
+
+
             </div>
           </div>
         </div>

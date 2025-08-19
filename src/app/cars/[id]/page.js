@@ -163,130 +163,69 @@ export default function CarDetailPage() {
                 {car.name}
               </h1>
               
-              <div className="text-3xl font-bold text-blue-600 mb-6 flex items-center">
-                <svg className="w-8 h-8 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                </svg>
+              <div className="text-3xl font-bold text-blue-600 mb-6">
                 {car.price ? car.price.toLocaleString('vi-VN') : '0'} VNĐ
               </div>
 
               {/* Thông tin cơ bản */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-3 text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
+                <h3 className="text-lg font-semibold mb-3 text-gray-900">
                   Thông tin cơ bản
                 </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center">
-                    <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                    </svg>
-                    <div>
-                      <span className="text-gray-600 text-sm">Thương hiệu:</span>
-                      <p className="font-semibold">{car.brand}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                    </svg>
-                    <div>
-                      <span className="text-gray-600 text-sm">Năm sản xuất:</span>
-                      <p className="font-semibold">{car.year}</p>
-                    </div>
-                  </div>
-                  {car.color && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Màu sắc:</span>
-                        <p className="font-semibold">{car.color}</p>
-                      </div>
-                    </div>
-                  )}
-                  {car.mileage && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Số km đã đi:</span>
-                        <p className="font-semibold">{car.mileage}</p>
-                      </div>
-                    </div>
-                  )}
+                                 <div className="grid grid-cols-2 gap-4">
+                   <div>
+                     <span className="text-gray-600 text-sm">Thương hiệu:</span>
+                     <p className="text-xl font-bold text-gray-900">{car.brand}</p>
+                   </div>
+                   {car.color && (
+                     <div>
+                       <span className="text-gray-600 text-sm">Màu sắc:</span>
+                       <p className="text-xl font-bold text-gray-900">{car.color}</p>
+                     </div>
+                   )}
+                   {car.mileage && (
+                     <div>
+                       <span className="text-gray-600 text-sm">Số km đã đi:</span>
+                       <p className="text-xl font-bold text-gray-900">{car.mileage}</p>
+                     </div>
+                   )}
                 </div>
               </div>
 
               {/* Thông số kỹ thuật */}
               <div className="mb-6">
-                <h3 className="text-lg font-semibold mb-3 text-gray-900 flex items-center">
-                  <svg className="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                <h3 className="text-lg font-semibold mb-3 text-gray-900">
                   Thông số kỹ thuật
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   {car.seats && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Số chỗ ngồi:</span>
-                        <p className="font-semibold">{car.seats} chỗ</p>
-                      </div>
+                    <div>
+                      <span className="text-gray-600 text-sm">Số chỗ ngồi:</span>
+                      <p className="text-xl font-bold text-gray-900">{car.seats} chỗ</p>
                     </div>
                   )}
                   {car.doors && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5v4m8-4v4" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Số cửa:</span>
-                        <p className="font-semibold">{car.doors} cửa</p>
-                      </div>
+                    <div>
+                      <span className="text-gray-600 text-sm">Số cửa:</span>
+                      <p className="text-xl font-bold text-gray-900">{car.doors} cửa</p>
                     </div>
                   )}
                   {car.transmission && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Hộp số:</span>
-                        <p className="font-semibold">{car.transmission}</p>
-                      </div>
+                    <div>
+                      <span className="text-gray-600 text-sm">Hộp số:</span>
+                      <p className="text-xl font-bold text-gray-900">{car.transmission}</p>
                     </div>
                   )}
                   {car.fuelType && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Nhiên liệu:</span>
-                        <p className="font-semibold">{car.fuelType}</p>
-                      </div>
+                    <div>
+                      <span className="text-gray-600 text-sm">Nhiên liệu:</span>
+                      <p className="text-xl font-bold text-gray-900">{car.fuelType}</p>
                     </div>
                   )}
                   {car.maxSpeed && (
-                    <div className="flex items-center">
-                      <svg className="w-4 h-4 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                      </svg>
-                      <div>
-                        <span className="text-gray-600 text-sm">Tốc độ tối đa:</span>
-                        <p className="font-semibold">{car.maxSpeed} km/h</p>
-                      </div>
+                    <div>
+                      <span className="text-gray-600 text-sm">Tốc độ tối đa:</span>
+                      <p className="text-xl font-bold text-gray-900">{car.maxSpeed} km/h</p>
                     </div>
                   )}
                 </div>

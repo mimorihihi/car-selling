@@ -10,29 +10,77 @@ export default function Services() {
     { id: 'genuine', label: 'SẢN PHẨM CHÍNH HÃNG' }
   ];
 
-  const services = [
-    {
-      id: 1,
-      title: 'Bảo dưỡng định kỳ',
-      description: 'Trong quá trình vận hành, nhiều chi tiết trên xe bị mài mòn hoặc hư hỏng theo thời gian sử dụng. Điều này xảy ra với bất kỳ cơ cấu máy móc nào.',
-      image: 'https://images.unsplash.com/photo-1486006920555-c77dcf18193c?w=400&q=80',
-      link: '#'
-    },
-    {
-      id: 2,
-      title: 'Dịch vụ sửa chữa',
-      description: 'CarStore cũng cung cấp dịch vụ sửa chữa đối với những hư hỏng do va chạm mà chiếc xe của bạn gặp phải trong quá trình sử dụng với kỹ thuật chuyên nghiệp.',
-      image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80',
-      link: '#'
-    },
-    {
-      id: 3,
-      title: 'Dịch vụ chăm sóc làm đẹp xe',
-      description: 'Chăm sóc và làm đẹp tập trung vào thẩm mỹ, làm đẹp nội ngoại thất xe, mang lại các trải nghiệm cao cấp và sang trọng cho người dùng.',
-      image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=80',
-      link: '#'
-    }
-  ];
+  const servicesData = {
+    'after-sales': [
+      {
+        id: 1,
+        title: 'Bảo dưỡng định kỳ',
+        description: 'Trong quá trình vận hành, nhiều chi tiết trên xe bị mài mòn hoặc hư hỏng theo thời gian sử dụng. Điều này xảy ra với bất kỳ cơ cấu máy móc nào.',
+        image: 'https://images.unsplash.com/photo-1486006920555-c77dcf18193c?w=400&q=80',
+        link: '#'
+      },
+      {
+        id: 2,
+        title: 'Dịch vụ sửa chữa',
+        description: 'CarStore cũng cung cấp dịch vụ sửa chữa đối với những hư hỏng do va chạm mà chiếc xe của bạn gặp phải trong quá trình sử dụng với kỹ thuật chuyên nghiệp.',
+        image: 'https://images.unsplash.com/photo-1563720223185-11003d516935?w=400&q=80',
+        link: '#'
+      },
+      {
+        id: 3,
+        title: 'Dịch vụ chăm sóc làm đẹp xe',
+        description: 'Chăm sóc và làm đẹp tập trung vào thẩm mỹ, làm đẹp nội ngoại thất xe, mang lại các trải nghiệm cao cấp và sang trọng cho người dùng.',
+        image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=80',
+        link: '#'
+      }
+    ],
+    'value-added': [
+      {
+        id: 4,
+        title: 'Bảo hiểm ô tô',
+        description: 'Dịch vụ tư vấn và hỗ trợ mua bảo hiểm ô tô với các gói bảo hiểm toàn diện, mang lại sự yên tâm tối đa cho khách hàng khi tham gia giao thông.',
+        image: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=400&q=80',
+        link: '#'
+      },
+      {
+        id: 5,
+        title: 'Tài chính ô tô',
+        description: 'Hỗ trợ vay mua xe với lãi suất ưu đãi, thủ tục nhanh gọn. Đội ngũ tư vấn tài chính chuyên nghiệp sẽ giúp bạn tìm ra gói vay phù hợp nhất.',
+        image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400&q=80',
+        link: '#'
+      },
+      {
+        id: 6,
+        title: 'Dịch vụ đăng ký xe',
+        description: 'Hỗ trợ làm thủ tục đăng ký xe, sang tên đổi chủ, làm biển số nhanh chóng và chính xác. Tiết kiệm thời gian và công sức cho khách hàng.',
+        image: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=400&q=80',
+        link: '#'
+      }
+    ],
+    'genuine': [
+      {
+        id: 7,
+        title: 'Phụ tùng chính hãng',
+        description: 'Cung cấp đầy đủ phụ tùng chính hãng cho tất cả các dòng xe. Cam kết 100% hàng chính hãng với chế độ bảo hành uy tín.',
+        image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&q=80',
+        link: '#'
+      },
+      {
+        id: 8,
+        title: 'Phụ kiện nội thất',
+        description: 'Các sản phẩm phụ kiện nội thất cao cấp giúp nâng cao trải nghiệm lái xe và tăng tính thẩm mỹ cho cabin xe của bạn.',
+        image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&q=80',
+        link: '#'
+      },
+      {
+        id: 9,
+        title: 'Phụ kiện ngoại thất',
+        description: 'Đa dạng các loại phụ kiện ngoại thất chính hãng giúp xe của bạn trở nên nổi bật và cá tính hơn, từ body kit đến các chi tiết trang trí.',
+        image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&q=80',
+        link: '#'
+      }
+    ]
+  };
 
   return (
     <section className="py-20 bg-gray-50">
@@ -80,7 +128,7 @@ export default function Services() {
 
           {/* Cards Container */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-12">
-            {services.map((service) => (
+            {servicesData[activeTab].map((service) => (
               <div key={service.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
                 {/* Service Image */}
                 <div className="relative h-48">
