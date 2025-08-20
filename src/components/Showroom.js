@@ -5,19 +5,19 @@ export default function Showroom() {
   const showrooms = [
     {
       id: 1,
-      name: 'Showroom CarStore Hà Nội',
+      name: 'Showroom Mercedes-Benz Hà Nội',
       address: '123 Đường Lê Lợi, Quận Hoàn Kiếm, Hà Nội',
-      phone: '024 1234 5678',
+      phone: '03616278421',
       hours: '8:00 - 20:00 (Thứ 2 - Chủ nhật)',
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80'
+      image: 'https://auto360.com.vn/images/Dealer/Mercedes/dien-bien-phu/Mercedes_Haxaco_Hang_Xanh.jpg'
     },
     {
       id: 2,
-      name: 'Showroom CarStore Thái Nguyên',
+      name: 'Showroom Mercedes-Benz Thái Nguyên',
       address: '456 Đường Thống Nhất, TP. Thái Nguyên',
-      phone: '0208 9876 5432',
+      phone: '01231256123',
       hours: '8:00 - 19:00 (Thứ 2 - Chủ nhật)',
-      image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=600&q=80'
+      image: 'https://auto360.com.vn/images/Dealer/Mercedes/mien-nam/Mercedes_phu_my_hung_01.jpg'
     }
   ];
 
@@ -39,13 +39,23 @@ export default function Showroom() {
           {showrooms.map((showroom) => (
             <div key={showroom.id} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
               {/* Showroom Image */}
-              <div className="relative h-48">
+              <div className="relative h-48 bg-gray-200 overflow-hidden">
                 <img
                   src={showroom.image}
                   alt={showroom.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                  loading="lazy"
+                  style={{
+                    imageRendering: '-webkit-optimize-contrast',
+                    imageRendering: 'auto',
+                    filter: 'contrast(1.1) saturate(1.1)',
+                    backfaceVisibility: 'hidden',
+                    WebkitBackfaceVisibility: 'hidden',
+                    transform: 'translate3d(0, 0, 0)',
+                    WebkitTransform: 'translate3d(0, 0, 0)'
+                  }}
                   onError={(e) => {
-                    e.target.src = 'https://via.placeholder.com/600x400?text=Showroom+Image';
+                    e.target.src = '/car-placeholder.jpg';
                   }}
                 />
               </div>

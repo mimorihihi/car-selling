@@ -3,6 +3,17 @@ import { getWishlist, addToWishlist, removeFromWishlist, getWishlistByUser } fro
 
 export async function POST(request) {
   try {
+    // Kiểm tra authentication
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { error: 'Bạn cần đăng nhập để sử dụng wishlist' },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.split(' ')[1];
+    
     const { carId, action, userId } = await request.json();
     console.log('Wishlist API: Received data:', { carId, action, userId });
 
@@ -13,9 +24,14 @@ export async function POST(request) {
       );
     }
 
-    // Trong thực tế, userId sẽ lấy từ session/token
-    // Hiện tại sử dụng userId mặc định cho demo
-    const currentUserId = userId || 'demo-user';
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID là bắt buộc' },
+        { status: 400 }
+      );
+    }
+
+    const currentUserId = userId;
     console.log('Wishlist API: Using userId:', currentUserId);
 
     if (action === 'add') {
@@ -71,8 +87,27 @@ export async function POST(request) {
 
 export async function GET(request) {
   try {
+    // Kiểm tra authentication
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { error: 'Bạn cần đăng nhập để xem wishlist' },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.split(' ')[1];
+    
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId') || 'demo-user';
+    const userId = searchParams.get('userId');
+    
+    if (!userId) {
+      return NextResponse.json(
+        { error: 'User ID là bắt buộc' },
+        { status: 400 }
+      );
+    }
+    
     console.log('Wishlist API: Getting wishlist for userId:', userId);
 
     const wishlist = await getWishlistByUser(userId);

@@ -10,6 +10,10 @@ export default function CarDetailPage() {
   const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showTestDriveModal, setShowTestDriveModal] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const [fetchError, setFetchError] = useState(null);
   const [testDriveForm, setTestDriveForm] = useState({
     customerName: '',
     customerEmail: '',
@@ -30,13 +34,19 @@ export default function CarDetailPage() {
           const data = await response.json();
           console.log('Car data:', data);
           setCar(data);
+        } else if (response.status === 401) {
+          // Yêu cầu đăng nhập
+          setFetchError('login_required');
+        } else if (response.status === 404) {
+          // Xe không tồn tại
+          setFetchError('car_not_found');
         } else {
-          console.error('Car not found, redirecting to cars page');
-          router.push('/cars');
+          // Lỗi khác
+          setFetchError('general_error');
         }
       } catch (error) {
         console.error('Error fetching car:', error);
-        router.push('/cars');
+        setFetchError('network_error');
       } finally {
         setLoading(false);
       }
@@ -47,17 +57,49 @@ export default function CarDetailPage() {
     }
   }, [params.id, router]);
 
+  // Kiểm tra trạng thái đăng nhập
+  useEffect(() => {
+    const userToken = localStorage.getItem('userToken');
+    const userData = localStorage.getItem('userData');
+    
+    if (userToken && userData) {
+      try {
+        const userInfo = JSON.parse(userData);
+        setIsLoggedIn(true);
+        setUser(userInfo);
+        // Tự động điền thông tin người dùng vào form
+        setTestDriveForm(prev => ({
+          ...prev,
+          customerName: userInfo.name || '',
+          customerEmail: userInfo.email || '',
+          customerPhone: userInfo.phone || ''
+        }));
+      } catch (error) {
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userData');
+      }
+    }
+  }, []);
+
   const addToWishlist = async () => {
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true);
+      return;
+    }
+
     try {
+      const userToken = localStorage.getItem('userToken');
+      
       const response = await fetch('/api/wishlist', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`
         },
         body: JSON.stringify({
           carId: car.id,
           action: 'add',
-          userId: 'demo-user'
+          userId: user?.id
         }),
       });
 
@@ -66,6 +108,9 @@ export default function CarDetailPage() {
       if (response.ok) {
         alert('Đã thêm vào wishlist!');
         router.push('/wishlist');
+      } else if (response.status === 401) {
+        alert('Vui lòng đăng nhập để sử dụng wishlist');
+        setShowLoginPrompt(true);
       } else {
         // Hiển thị thông báo lỗi cụ thể từ server
         alert(data.error || 'Có lỗi xảy ra khi thêm vào wishlist');
@@ -76,14 +121,25 @@ export default function CarDetailPage() {
     }
   };
 
+  const handleTestDriveClick = () => {
+    if (!isLoggedIn) {
+      setShowLoginPrompt(true);
+      return;
+    }
+    setShowTestDriveModal(true);
+  };
+
   const submitTestDrive = async (e) => {
     e.preventDefault();
     try {
+      const userToken = localStorage.getItem('userToken');
+      
       const testDriveData = {
         ...testDriveForm,
         carId: car.id,
         carName: car.name,
         carBrand: car.brand,
+        userId: user?.id,
         status: 'pending'
       };
 
@@ -91,6 +147,7 @@ export default function CarDetailPage() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${userToken}`
         },
         body: JSON.stringify(testDriveData),
       });
@@ -99,15 +156,16 @@ export default function CarDetailPage() {
         alert('Đặt lịch lái xe thử thành công! Chúng tôi sẽ liên hệ sớm nhất.');
         setShowTestDriveModal(false);
         setTestDriveForm({
-          customerName: '',
-          customerEmail: '',
-          customerPhone: '',
+          customerName: user?.name || '',
+          customerEmail: user?.email || '',
+          customerPhone: user?.phone || '',
           scheduledDate: '',
           scheduledTime: '',
           notes: ''
         });
       } else {
-        alert('Có lỗi xảy ra khi đặt lịch');
+        const errorData = await response.json();
+        alert(errorData.error || 'Có lỗi xảy ra khi đặt lịch');
       }
     } catch (error) {
       console.error('Error booking test drive:', error);
@@ -121,6 +179,92 @@ export default function CarDetailPage() {
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
           <p className="mt-4 text-gray-600">Đang tải...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Hiển thị lỗi nếu có
+  if (fetchError) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="max-w-md w-full mx-4">
+          <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+            {fetchError === 'login_required' && (
+              <>
+                <div className="w-16 h-16 mx-auto mb-4 bg-blue-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Yêu cầu đăng nhập</h3>
+                <p className="text-gray-600 mb-6">Bạn cần đăng nhập để xem thông tin chi tiết xe này.</p>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => router.push('/cars')}
+                    className="flex-1 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                  >
+                    Quay lại
+                  </button>
+                  <button
+                    onClick={() => router.push('/?login=true')}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Đăng nhập
+                  </button>
+                </div>
+              </>
+            )}
+            
+            {fetchError === 'car_not_found' && (
+              <>
+                <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Không tìm thấy xe</h3>
+                <p className="text-gray-600 mb-6">Xe bạn tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+                <button
+                  onClick={() => router.push('/cars')}
+                  className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  Xem danh sách xe
+                </button>
+              </>
+            )}
+            
+            {(fetchError === 'network_error' || fetchError === 'general_error') && (
+              <>
+                <div className="w-16 h-16 mx-auto mb-4 bg-yellow-100 rounded-full flex items-center justify-center">
+                  <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">Có lỗi xảy ra</h3>
+                <p className="text-gray-600 mb-6">
+                  {fetchError === 'network_error' 
+                    ? 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng.'
+                    : 'Đã xảy ra lỗi khi tải thông tin xe. Vui lòng thử lại sau.'
+                  }
+                </p>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={() => router.push('/cars')}
+                    className="flex-1 px-4 py-2 text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
+                  >
+                    Quay lại
+                  </button>
+                  <button
+                    onClick={() => window.location.reload()}
+                    className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  >
+                    Thử lại
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -259,13 +403,13 @@ export default function CarDetailPage() {
                   onClick={addToWishlist}
                   className="flex-1 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
                 >
-                  ❤️ Thêm vào Wishlist
+                   Thêm vào Wishlist
                 </button>
                 <button
-                  onClick={() => setShowTestDriveModal(true)}
+                  onClick={handleTestDriveClick}
                   className="flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
                 >
-                  🚗 Đặt lịch lái thử
+                   Đặt lịch lái thử
                 </button>
               </div>
             </div>
@@ -381,6 +525,41 @@ export default function CarDetailPage() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Login Prompt Modal */}
+      {showLoginPrompt && (
+        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div className="mt-3 text-center">
+              <h3 className="text-lg font-medium text-gray-900 mb-4">
+                Yêu cầu đăng nhập
+              </h3>
+              
+              <p className="text-gray-600 mb-6">
+                Bạn cần đăng nhập để có thể đặt lịch lái thử xe.
+              </p>
+              
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setShowLoginPrompt(false)}
+                  className="px-4 py-2 text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 transition-colors"
+                >
+                  Hủy
+                </button>
+                <button
+                  onClick={() => {
+                    setShowLoginPrompt(false);
+                    router.push('/?login=true');
+                  }}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  Đăng nhập
+                </button>
+              </div>
             </div>
           </div>
         </div>

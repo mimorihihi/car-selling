@@ -4,6 +4,20 @@ import { addTestDrive } from '@/lib/firebase-helpers';
 // POST - Đặt lịch lái xe thử
 export async function POST(request) {
   try {
+    // Kiểm tra authentication
+    const authHeader = request.headers.get('authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return NextResponse.json(
+        { error: 'Bạn cần đăng nhập để đặt lịch lái thử' },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.split(' ')[1];
+    
+    // Tại đây bạn có thể verify token nếu cần
+    // Hiện tại chỉ kiểm tra có token hay không
+    
     const body = await request.json();
     const { 
       customerName, 
@@ -15,6 +29,7 @@ export async function POST(request) {
       carId,
       carName,
       carBrand,
+      userId,
       status 
     } = body;
 
@@ -36,6 +51,7 @@ export async function POST(request) {
       carId,
       carName,
       carBrand,
+      userId,
       status: status || 'pending'
     };
 

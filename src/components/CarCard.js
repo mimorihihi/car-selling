@@ -5,21 +5,7 @@ import { useState, useEffect } from 'react';
 export default function CarCard({ car }) {
   const [isWishlist, setIsWishlist] = useState(false);
 
-  // Kiểm tra trạng thái wishlist khi component load
-  useEffect(() => {
-    const checkWishlistStatus = async () => {
-      try {
-        const response = await fetch('/api/wishlist?userId=demo-user');
-        const wishlist = await response.json();
-        const isInWishlist = wishlist.some(item => item.carId === car.id);
-        setIsWishlist(isInWishlist);
-      } catch (error) {
-        console.error('Error checking wishlist status:', error);
-      }
-    };
-
-    checkWishlistStatus();
-  }, [car.id]);
+  
 
   const handleWishlist = async () => {
     try {

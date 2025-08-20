@@ -1,9 +1,23 @@
+'use client';
+import { useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import CarList from '@/components/CarList';
 import Hero from '@/components/Hero';
 import Layout from '@/components/Layout';
 import Services from '@/components/Services';
 
 export default function Home() {
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    // Kiểm tra nếu có query parameter login=true
+    if (searchParams.get('login') === 'true') {
+      // Trigger login modal từ Layout component
+      const event = new CustomEvent('openLoginModal');
+      window.dispatchEvent(event);
+    }
+  }, [searchParams]);
+
   return (
     <Layout>
       {/* Hero Section */}
