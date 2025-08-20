@@ -59,6 +59,8 @@ export default function CarDetailPage() {
 
   // Kiểm tra trạng thái đăng nhập
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
     const userToken = localStorage.getItem('userToken');
     const userData = localStorage.getItem('userData');
     
@@ -88,7 +90,7 @@ export default function CarDetailPage() {
     }
 
     try {
-      const userToken = localStorage.getItem('userToken');
+      const userToken = typeof window !== 'undefined' ? localStorage.getItem('userToken') : null;
       
       const response = await fetch('/api/wishlist', {
         method: 'POST',
@@ -132,7 +134,7 @@ export default function CarDetailPage() {
   const submitTestDrive = async (e) => {
     e.preventDefault();
     try {
-      const userToken = localStorage.getItem('userToken');
+      const userToken = typeof window !== 'undefined' ? localStorage.getItem('userToken') : null;
       
       const testDriveData = {
         ...testDriveForm,

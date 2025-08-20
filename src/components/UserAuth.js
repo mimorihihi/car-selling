@@ -23,6 +23,8 @@ export default function UserAuth() {
 
   useEffect(() => {
     // Kiểm tra trạng thái đăng nhập khi component mount
+    if (typeof window === 'undefined') return;
+    
     const userToken = localStorage.getItem('userToken');
     const userData = localStorage.getItem('userData');
     
@@ -67,8 +69,10 @@ export default function UserAuth() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('userToken', data.token);
-        localStorage.setItem('userData', JSON.stringify(data.user));
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('userToken', data.token);
+          localStorage.setItem('userData', JSON.stringify(data.user));
+        }
         setIsLoggedIn(true);
         setUser(data.user);
         setShowLoginModal(false);
@@ -117,8 +121,10 @@ export default function UserAuth() {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('userToken', data.token);
-        localStorage.setItem('userData', JSON.stringify(data.user));
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('userToken', data.token);
+          localStorage.setItem('userData', JSON.stringify(data.user));
+        }
         setIsLoggedIn(true);
         setUser(data.user);
         setShowRegisterModal(false);
@@ -136,8 +142,10 @@ export default function UserAuth() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('userToken');
-    localStorage.removeItem('userData');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('userToken');
+      localStorage.removeItem('userData');
+    }
     setIsLoggedIn(false);
     setUser(null);
   };

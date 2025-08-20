@@ -15,6 +15,11 @@ export default function WishlistPage() {
 
   // Kiểm tra trạng thái đăng nhập
   useEffect(() => {
+    if (typeof window === 'undefined') {
+      setLoading(false);
+      return;
+    }
+    
     const userToken = localStorage.getItem('userToken');
     const userData = localStorage.getItem('userData');
     
@@ -40,7 +45,7 @@ export default function WishlistPage() {
       if (!isLoggedIn || !user) return;
       
       try {
-        const userToken = localStorage.getItem('userToken');
+        const userToken = typeof window !== 'undefined' ? localStorage.getItem('userToken') : null;
         console.log('Fetching wishlist for user:', user.id);
         
         const response = await fetch(`/api/wishlist?userId=${user.id}`, {
