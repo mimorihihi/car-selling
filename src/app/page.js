@@ -1,12 +1,12 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import CarList from '@/components/CarList';
 import Hero from '@/components/Hero';
 import Layout from '@/components/Layout';
 import Services from '@/components/Services';
 
-export default function Home() {
+function HomeContent() {
   const searchParams = useSearchParams();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function Home() {
   }, [searchParams]);
 
   return (
-    <Layout>
+    <>
       {/* Hero Section */}
       <Hero />
 
@@ -40,6 +40,16 @@ export default function Home() {
 
       {/* Services Section */}
       <Services />
+    </>
+  );
+}
+
+export default function Home() {
+  return (
+    <Layout>
+      <Suspense fallback={<div>Loading...</div>}>
+        <HomeContent />
+      </Suspense>
     </Layout>
   );
 }
